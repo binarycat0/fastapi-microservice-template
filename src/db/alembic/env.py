@@ -1,4 +1,5 @@
 import asyncio
+from distutils.util import strtobool
 from logging.config import fileConfig
 
 from alembic import context
@@ -20,7 +21,9 @@ config.set_main_option("sqlalchemy.url", settings.db.dsn)
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+    ignore_logging = strtobool(config.get_main_option("ignore_logging", "false"))
+    if not ignore_logging:
+        fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support

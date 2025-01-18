@@ -42,7 +42,7 @@ docker-migrate:
 	docker compose \
 	-f ./docker/docker-compose.yaml \
 	--project-directory ./ \
-	exec -w /app api poetry run alembic -c ./db/alembic.ini upgrade head
+	exec -w /app api poetry run alembic -c /app/alembic.ini upgrade head
 
 docker-downgrade:
 	docker compose \
