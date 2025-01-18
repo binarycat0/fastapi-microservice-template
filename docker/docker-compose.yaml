@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: app
+    build:
+      dockerfile: ./docker/Dockerfile
+    environment:
+      APP_DB: '{"dsn": "postgresql://postgres:password@postgres_db:5432/microservice"}'
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app/:ro
+    links:
+      - postgres_db
+    networks:
+      - backend
+
+  postgres_db:
+    container_name: postgres_db
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: microservice
+    ports:
+      - "15432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+volumes:
+  db_data:
+
+
+networks:
+  backend:
