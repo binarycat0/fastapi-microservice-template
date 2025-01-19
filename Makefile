@@ -1,3 +1,5 @@
+install:
+	poetry install
 
 lint:
 	poetry run black ./src;
@@ -30,14 +32,6 @@ docker-compose-up:
 	--project-directory ./ \
 	up -d
 
-docker-up: docker-compose-build docker-compose-up
-
-docker-down:
-	docker compose \
-	-f ./docker/docker-compose.yaml \
-	--project-directory ./ \
-	down -v
-
 docker-migrate:
 	docker compose \
 	-f ./docker/docker-compose.yaml \
@@ -49,6 +43,14 @@ docker-downgrade:
 	-f ./docker/docker-compose.yaml \
 	--project-directory ./ \
 	exec -w /app api poetry run alembic -c ./db/alembic.ini downgrade -1
+
+docker-up: docker-compose-build docker-compose-up docker-migrate
+
+docker-down:
+	docker compose \
+	-f ./docker/docker-compose.yaml \
+	--project-directory ./ \
+	down -v
 
 migrate-check:
 	poetry run alembic -c ./alembic.ini check
