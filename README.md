@@ -1,11 +1,20 @@
 # fastapi-microservice-template
 The Ultimate Super-Convenient Template for Microservices Based on FastAPI
 
-By default, the application starts on 0.0.0.0 host and 8000 port: http://0.0.0.0:8000/
+The application starts on 0.0.0.0 host and 8000 port by default.
 
 There is a little help:
 - To get Swagget Docs reach: http://0.0.0.0:8000/docs
 - To get openapi spec reach: http://0.0.0.0:8000/docs/openapi
+
+`ultimate-fastapi-microservice` implements CRUD for User entity out of the box.
+
+```
+Read Users -> GET: /api/users/
+Create New User -> POST: /api/users/
+Read User -> GET: /api/users/{user_id}
+Delete User Endpoint -> DELETE: /api/users/{user_id}
+```
 
 
 ## Initiate poetry environment
