@@ -1,6 +1,10 @@
 # fastapi-microservice-template :floppy_disk: :green_heart:
 The Ultimate Super-Convenient Template for Microservices Based on FastAPI :moneybag:
 
+Main article on [medium.com](https://medium.com/@artur.rakhmatulin/the-ultimate-super-convenient-template-for-microservices-based-on-fastapi-919abe76699b). Please check this out.
+
+----
+
 The application starts on 0.0.0.0 host and 8000 port by default.
 
 There is a little help:
