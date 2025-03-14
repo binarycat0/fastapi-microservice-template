@@ -1,18 +1,17 @@
-from asyncpg import UniqueViolationError
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
-from fastapi.requests import Request
 from sqlalchemy.exc import IntegrityError
 
+from repositories import RepositoryDep
 from schemas.users import UserCreateModel, UserResponseModel
-from repositories.users import UsersRepository
 
 router = APIRouter()
 
 
 @router.post("/", response_model=UserResponseModel)
-async def create_new_user(request: Request, user: UserCreateModel):
-    users_repository: UsersRepository = request.app.state.users_repository
+async def create_new_user(
+    user: UserCreateModel, users_repository: RepositoryDep
+):
     try:
         new_user = await users_repository.create_user(user)
         return new_user
@@ -21,8 +20,7 @@ async def create_new_user(request: Request, user: UserCreateModel):
 
 
 @router.get("/{user_id}", response_model=UserResponseModel)
-async def read_user(request: Request, user_id: int):
-    users_repository: UsersRepository = request.app.state.users_repository
+async def read_user(user_id: int, users_repository: RepositoryDep):
     user = await users_repository.get_user_by_id(user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -30,14 +28,14 @@ async def read_user(request: Request, user_id: int):
 
 
 @router.get("/", response_model=list[UserResponseModel])
-async def read_users(request: Request):
-    users_repository: UsersRepository = request.app.state.users_repository
+async def read_users(users_repository: RepositoryDep):
     return await users_repository.get_users()
 
 
 @router.delete("/{user_id}")
-async def delete_user_endpoint(request: Request, user_id: int):
-    users_repository: UsersRepository = request.app.state.users_repository
+async def delete_user_endpoint(
+    user_id: int, users_repository: RepositoryDep
+):
     success = await users_repository.delete_user(user_id)
     if not success:
         raise HTTPException(status_code=404, detail="User not found")

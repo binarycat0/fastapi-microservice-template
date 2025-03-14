@@ -4,8 +4,8 @@ from typing import Sequence
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
-from schemas.users import UserCreateModel
 from db.models.users import User
+from schemas.users import UserCreateModel
 
 
 @dataclass
@@ -24,9 +24,7 @@ class UsersRepository:
 
     async def create_user(self, user: UserCreateModel) -> User:
         new_user = User(
-            first_name = user.first_name,
-            last_name = user.last_name,
-            email = user.email
+            first_name=user.first_name, last_name=user.last_name, email=user.email
         )
         async with self.async_session() as session:
             session.add(new_user)

@@ -5,8 +5,6 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from db.engine import init_async_sessionmaker
-from repositories.users import UsersRepository
 from settings import get_settings
 
 settings = get_settings()
@@ -16,11 +14,6 @@ templates_dir = settings.base_dir + "/templates"
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Startup Ultimate Microservice")
-    # init common services or repositories
-    sessionmaker = init_async_sessionmaker(settings)
-    app.state.users_repository = UsersRepository(sessionmaker)
-
-    #
     yield
     print("Shutdown Ultimate Microservice")
 
