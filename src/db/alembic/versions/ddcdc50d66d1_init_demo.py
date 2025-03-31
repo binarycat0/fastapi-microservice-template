@@ -1,8 +1,8 @@
-"""demo
+"""init demo
 
-Revision ID: f40332f08441
+Revision ID: ddcdc50d66d1
 Revises: 
-Create Date: 2025-03-31 17:15:11.350599
+Create Date: 2025-03-31 21:16:35.382407
 
 """
 
@@ -13,7 +13,7 @@ from alembic import op
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = "f40332f08441"
+revision: str = "ddcdc50d66d1"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -63,13 +63,13 @@ def upgrade() -> None:
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),
-            server_default=sa.text("now() AT TIME ZONE 'UTC'"),
+            server_default=sa.text("(now() AT TIME ZONE 'UTC')"),
             nullable=False,
         ),
         sa.Column(
             "updated_at",
             sa.DateTime(timezone=True),
-            server_default=sa.text("now() AT TIME ZONE 'UTC'"),
+            server_default=sa.text("(now() AT TIME ZONE 'UTC')"),
             nullable=False,
         ),
         sa.PrimaryKeyConstraint("id"),
@@ -94,13 +94,13 @@ def upgrade() -> None:
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),
-            server_default=sa.text("now() AT TIME ZONE 'UTC'"),
+            server_default=sa.text("(now() AT TIME ZONE 'UTC')"),
             nullable=False,
         ),
         sa.Column(
             "updated_at",
             sa.DateTime(timezone=True),
-            server_default=sa.text("now() AT TIME ZONE 'UTC'"),
+            server_default=sa.text("(now() AT TIME ZONE 'UTC')"),
             nullable=False,
         ),
         sa.ForeignKeyConstraint(
@@ -124,13 +124,13 @@ def upgrade() -> None:
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),
-            server_default=sa.text("now() AT TIME ZONE 'UTC'"),
+            server_default=sa.text("(now() AT TIME ZONE 'UTC')"),
             nullable=False,
         ),
         sa.Column(
             "updated_at",
             sa.DateTime(timezone=True),
-            server_default=sa.text("now() AT TIME ZONE 'UTC'"),
+            server_default=sa.text("(now() AT TIME ZONE 'UTC')"),
             nullable=False,
         ),
         sa.ForeignKeyConstraint(

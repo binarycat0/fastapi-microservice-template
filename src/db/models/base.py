@@ -23,14 +23,14 @@ class CreatedUpdatedAtMixin:
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=datetime.now(UTC),
-        server_default=text("now() AT TIME ZONE 'UTC'"),
+        server_default=text("(now() AT TIME ZONE 'UTC')"),
         init=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=datetime.now(UTC),
-        server_default=text("now() AT TIME ZONE 'UTC'"),
+        server_default=text("(now() AT TIME ZONE 'UTC')"),
         onupdate=datetime.now(UTC),
         init=False,
     )
