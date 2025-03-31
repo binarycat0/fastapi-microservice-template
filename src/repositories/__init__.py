@@ -2,15 +2,15 @@ from typing import Annotated, AsyncGenerator
 
 from fastapi import Depends
 
-from db.engine import sessionmakerDep
+from db.engine import DBSessionManagerDep
 
 from .users import UsersRepository
 
 
 async def get_repository(
-    sessionmaker: sessionmakerDep,
+    session_manager: DBSessionManagerDep,
 ) -> AsyncGenerator[UsersRepository, None]:
-    yield UsersRepository(sessionmaker)
+    yield UsersRepository(session_manager)
 
 
 RepositoryDep = Annotated[UsersRepository, Depends(get_repository)]

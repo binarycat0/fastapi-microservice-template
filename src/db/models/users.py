@@ -26,14 +26,17 @@ class User(Base, IdMixin, CreatedUpdatedAtMixin):
         back_populates="user",
         uselist=False,
         primaryjoin="and_(Address.type == AddressType.PRIMARY)",
+        init=False,
     )
     addresses: Mapped[List["Address"]] = relationship(
-        back_populates="user", cascade="all, delete-orphan"
+        back_populates="user", cascade="all, delete-orphan", init=False
     )
     groups: Mapped[List["Group"]] = relationship(
-        back_populates="members", secondary="memberships"
+        back_populates="members", secondary="memberships", init=False
     )
-    memberships: Mapped[List["Membership"]] = relationship(back_populates="user")
+    memberships: Mapped[List["Membership"]] = relationship(
+        back_populates="user", init=False
+    )
 
 
 class AddressType(StrEnum):
