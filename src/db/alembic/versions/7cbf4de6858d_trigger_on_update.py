@@ -41,5 +41,5 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    op.execute("DROP TRIGGER eventstream_on_update ON eventstream")
-    op.execute("DROP FUNCTION update_timestamp()")
+    op.execute("DROP TRIGGER demo_model_on_update ON demo_model")
+    op.execute("DROP FUNCTION demo_model_update_timestamp()")
