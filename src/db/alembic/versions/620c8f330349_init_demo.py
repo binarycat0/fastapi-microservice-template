@@ -1,19 +1,19 @@
 """init demo
 
-Revision ID: ddcdc50d66d1
+Revision ID: 620c8f330349
 Revises: 
-Create Date: 2025-03-31 21:16:35.382407
+Create Date: 2025-04-01 13:33:13.230243
 
 """
 
 from typing import Sequence, Union
 
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = "ddcdc50d66d1"
+revision: str = "620c8f330349"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -77,13 +77,13 @@ def upgrade() -> None:
     )
     op.create_table(
         "addresses",
+        sa.Column("user_id", sa.BigInteger(), nullable=False),
         sa.Column("postal_code", sa.String(length=20), nullable=True),
         sa.Column("country", sa.String(length=100), nullable=True),
         sa.Column("city", sa.String(length=100), nullable=True),
         sa.Column("street", sa.String(length=255), nullable=True),
         sa.Column("address1", sa.String(length=255), nullable=True),
         sa.Column("address2", sa.String(length=255), nullable=True),
-        sa.Column("user_id", sa.BigInteger(), nullable=False),
         sa.Column(
             "type",
             sa.Enum("REGULAR", "PRIMARY", name="addresstype"),

@@ -99,3 +99,26 @@ class TestDbModels:
         assert user.memberships
         assert isinstance(user.groups[0], Group)
         assert isinstance(user.memberships[0], Membership)
+
+    async def test_groups__users(self, db_session_manager):
+        user1 = User("first_name1", "last_name", f"{uuid4().hex}@text.com")
+        user2 = User("first_name2", "last_name", f"{uuid4().hex}@text.com")
+        new_group = Group("test group")
+
+        async with db_session_manager.get_session() as session:
+            async with session.begin():
+                session.add(user1)
+                session.add(user2)
+                session.add(new_group)
+                user1.groups.append(new_group)
+                user2.groups.append(new_group)
+
+            result = await session.execute(
+                select(Group)
+                .options(joinedload(Group.members), joinedload(Group.memberships))
+                .where(Group.id == new_group.id)
+            )
+            new_group = result.scalars().first()
+
+        assert len(new_group.members) == 2
+        assert len(new_group.memberships) == 2
