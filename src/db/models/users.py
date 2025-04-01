@@ -25,14 +25,14 @@ class User(Base, IdMixin, CreatedUpdatedAtMixin):
     primary_address: Mapped["Address"] = relationship(
         back_populates="user",
         uselist=False,
-        primaryjoin="and_(Address.type == AddressType.PRIMARY)",
+        primaryjoin="and_(User.id==Address.user_id,Address.type=='PRIMARY')",
         init=False,
     )
     addresses: Mapped[List["Address"]] = relationship(
         back_populates="user", cascade="all, delete-orphan", init=False
     )
     groups: Mapped[List["Group"]] = relationship(
-        back_populates="members", secondary="memberships", init=False
+        secondary="memberships", back_populates="members", init=False
     )
     memberships: Mapped[List["Membership"]] = relationship(
         back_populates="user", init=False
@@ -61,7 +61,7 @@ class Address(Base, IdMixin, CreatedUpdatedAtMixin):
         init=False,
     )
 
-    user: Mapped[User] = relationship(back_populates="addresses")
+    user: Mapped[User] = relationship(back_populates="addresses", uselist=False)
 
     __table_args__ = (
         Index(
@@ -90,6 +90,6 @@ class Group(Base, IdMixin):
     description: Mapped[str] = mapped_column(String(255), nullable=True)
 
     members: Mapped[List["User"]] = relationship(
-        back_populates="users", secondary="memberships"
+        secondary="memberships", back_populates="groups"
     )
     memberships: Mapped[List["Membership"]] = relationship(back_populates="group")

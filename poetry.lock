@@ -1040,15 +1040,22 @@ pluggy = ">=1.5,<2"
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
-name = "pytest-async"
-version = "0.1.1"
-description = "pytest-async - Run your coroutine in event loop without decorator"
+name = "pytest-asyncio"
+version = "0.26.0"
+description = "Pytest support for asyncio"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.9"
 files = [
-    {file = "pytest_async-0.1.1-py3-none-any.whl", hash = "sha256:11cc41eef82592951d56c2bb9b0e6ab21b2f0f00663e78d95694a80d965be930"},
-    {file = "pytest_async-0.1.1.tar.gz", hash = "sha256:0d6ffd3ebac2f3aa47d606dbae1984750268a89dc8caf4a908ba61c60299cdfd"},
+    {file = "pytest_asyncio-0.26.0-py3-none-any.whl", hash = "sha256:7b51ed894f4fbea1340262bdae5135797ebbe21d8638978e35d31c6d19f72fb0"},
+    {file = "pytest_asyncio-0.26.0.tar.gz", hash = "sha256:c4df2a697648241ff39e7f0e4a73050b03f123f760673956cf0d72a4990e312f"},
 ]
+
+[package.dependencies]
+pytest = ">=8.2,<9"
+
+[package.extras]
+docs = ["sphinx (>=5.3)", "sphinx-rtd-theme (>=1)"]
+testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)"]
 
 [[package]]
 name = "pytest-cov"
@@ -1360,4 +1367,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d06139e31ca6c18717768005b03d53aff5be8412395ec2621ffcf975702287a9"
+content-hash = "3d3329cfd81c6183f1e8fc1fb051c985538254afa71f97a45fe0270002c7d035"
