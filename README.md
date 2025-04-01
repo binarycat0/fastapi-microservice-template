@@ -37,7 +37,7 @@ Before start your development journey make sure you set up your poetry environme
 
 ### ex: run postgresql in docker
     docker run \
-    --name test-db-postgres \
+    --name microservice-db \
     -e POSTGRES_PASSWORD=password \
     -e POSTGRES_DB=microservice \
     -p 5432:5432 \

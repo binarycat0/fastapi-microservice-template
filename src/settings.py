@@ -15,7 +15,7 @@ class DbSettings(BaseSettings):
     dsn: str = "postgresql+asyncpg://postgres:password@0.0.0.0:5432/microservice"
 
 
-ENV_PREFIX = "APP_"
+ENV_PREFIX = "DEMO_APP_"
 
 
 class Settings(BaseSettings):

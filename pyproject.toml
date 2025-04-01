@@ -22,6 +22,7 @@ asyncpg = "^0.30.0"
 gevent = "^24.11.1"
 uvicorn = "^0.34.0"
 jinja2 = "^3.1.5"
+pytest-asyncio = "^0.26.0"
 
 
 [build-system]
@@ -34,6 +35,8 @@ pythonpath = "src"
 testpaths = [
     "tests",
 ]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
 
 [tool.mypy]
 mypy_path = "src"
@@ -43,3 +46,6 @@ exclude = ["tests", "src/db/alembic"]
 
 [tool.black]
 exclude = "src/db/alembic"
+
+[tool.isort]
+multi_line_output = 3

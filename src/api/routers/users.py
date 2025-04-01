@@ -9,9 +9,7 @@ router = APIRouter()
 
 
 @router.post("/", response_model=UserResponseModel)
-async def create_new_user(
-    user: UserCreateModel, users_repository: RepositoryDep
-):
+async def create_new_user(user: UserCreateModel, users_repository: RepositoryDep):
     try:
         new_user = await users_repository.create_user(user)
         return new_user
@@ -33,10 +31,6 @@ async def read_users(users_repository: RepositoryDep):
 
 
 @router.delete("/{user_id}")
-async def delete_user_endpoint(
-    user_id: int, users_repository: RepositoryDep
-):
-    success = await users_repository.delete_user(user_id)
-    if not success:
-        raise HTTPException(status_code=404, detail="User not found")
+async def delete_user_endpoint(user_id: int, users_repository: RepositoryDep):
+    await users_repository.delete_user(user_id)
     return {"status": "deleted"}
