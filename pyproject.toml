@@ -45,7 +45,7 @@ explicit_package_bases = true
 exclude = ["tests", "src/db/alembic"]
 
 [tool.black]
-#exclude = "src/db/alembic"
+exclude = "src/db/alembic"
 
 [tool.isort]
 multi_line_output = 3
