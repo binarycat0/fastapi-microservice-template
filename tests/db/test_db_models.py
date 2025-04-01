@@ -18,10 +18,8 @@ class TestDbModels:
 
                 session.add_all(
                     [
-                        Address(
-                            new_user.id, address1="address1", type=AddressType.PRIMARY
-                        ),
-                        Address(new_user.id, address1="address2"),
+                        Address(new_user.id, type=AddressType.PRIMARY),
+                        Address(new_user.id),
                     ]
                 )
                 await session.flush()
@@ -50,9 +48,7 @@ class TestDbModels:
                 session.add(new_user)
                 await session.flush()
 
-                session.add(
-                    Address(new_user.id, address1="address1", type=AddressType.PRIMARY)
-                )
+                session.add(Address(new_user.id, type=AddressType.PRIMARY))
                 await session.flush()
 
                 result = await session.execute(
@@ -70,11 +66,7 @@ class TestDbModels:
         with pytest.raises(Exception) as ex:
             async with db_session_manager.get_session() as session:
                 async with session.begin():
-                    session.add(
-                        Address(
-                            new_user.id, address1="address1", type=AddressType.PRIMARY
-                        )
-                    )
+                    session.add(Address(new_user.id, type=AddressType.PRIMARY))
 
         assert "violates unique constraint" in str(ex)
 
