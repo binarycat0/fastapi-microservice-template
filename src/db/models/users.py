@@ -47,21 +47,22 @@ class AddressType(StrEnum):
 class Address(Base, IdMixin, CreatedUpdatedAtMixin):
     __tablename__ = "addresses"
 
-    postal_code: Mapped[str] = mapped_column(String(20), nullable=True, init=False)
-    country: Mapped[str] = mapped_column(String(100), nullable=True, init=False)
-    city: Mapped[str] = mapped_column(String(100), nullable=True, init=False)
-    street: Mapped[str] = mapped_column(String(255), nullable=True, init=False)
-    address1: Mapped[str] = mapped_column(String(255), nullable=True, init=False)
-    address2: Mapped[str] = mapped_column(String(255), nullable=True, init=False)
-    user_id: Mapped[User] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user: Mapped[User] = relationship(
+        back_populates="addresses", uselist=False, init=False
+    )
+
+    postal_code: Mapped[str] = mapped_column(String(20), nullable=True, default=None)
+    country: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
+    city: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
+    street: Mapped[str] = mapped_column(String(255), nullable=True, default=None)
+    address1: Mapped[str] = mapped_column(String(255), nullable=True, default=None)
+    address2: Mapped[str] = mapped_column(String(255), nullable=True, default=None)
     type: Mapped[AddressType] = mapped_column(
         Enum(AddressType),
         default=AddressType.REGULAR,
         server_default=text(f"'{AddressType.REGULAR.value}'"),
-        init=False,
     )
-
-    user: Mapped[User] = relationship(back_populates="addresses", uselist=False)
 
     __table_args__ = (
         Index(
@@ -87,9 +88,11 @@ class Group(Base, IdMixin):
     __tablename__ = "groups"
 
     name: Mapped[str] = mapped_column(String(255), nullable=False)
-    description: Mapped[str] = mapped_column(String(255), nullable=True)
+    description: Mapped[str] = mapped_column(String(255), nullable=True, default=None)
 
     members: Mapped[List["User"]] = relationship(
-        secondary="memberships", back_populates="groups"
+        secondary="memberships", back_populates="groups", init=False
     )
-    memberships: Mapped[List["Membership"]] = relationship(back_populates="group")
+    memberships: Mapped[List["Membership"]] = relationship(
+        back_populates="group", init=False
+    )

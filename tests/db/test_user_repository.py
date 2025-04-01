@@ -2,19 +2,8 @@ from datetime import datetime
 
 import pytest
 
-from db.session import get_db_session_manager
-from repositories import UsersRepository
+from conftest import rep
 from schemas.users import UserCreateModel
-
-
-@pytest.fixture(scope="session")
-def db_session_manager():
-    return get_db_session_manager()
-
-
-@pytest.fixture(scope="session")
-def rep(db_session_manager) -> UsersRepository:
-    return UsersRepository(db_session_manager)
 
 
 class TestUsersRepository:
