@@ -22,15 +22,17 @@ class IdMixin:
 class CreatedUpdatedAtMixin:
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
-        default=datetime.now(UTC),
+        insert_default=datetime.now(UTC),
         server_default=text("(now() AT TIME ZONE 'UTC')"),
         init=False,
+        default=None,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
-        default=datetime.now(UTC),
+        insert_default=datetime.now(UTC),
         server_default=text("(now() AT TIME ZONE 'UTC')"),
         onupdate=datetime.now(UTC),
         init=False,
+        default=None,
     )

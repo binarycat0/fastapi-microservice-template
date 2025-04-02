@@ -60,8 +60,9 @@ class Address(Base, IdMixin, CreatedUpdatedAtMixin):
     address2: Mapped[str] = mapped_column(String(255), nullable=True, default=None)
     type: Mapped[AddressType] = mapped_column(
         Enum(AddressType),
-        default=AddressType.REGULAR,
+        insert_default=AddressType.REGULAR,
         server_default=text(f"'{AddressType.REGULAR.value}'"),
+        default=None,
     )
 
     __table_args__ = (

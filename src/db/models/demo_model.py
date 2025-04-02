@@ -4,11 +4,12 @@ __all__ = [
 ]
 
 import datetime
+import decimal
 import uuid
-from decimal import Decimal
 from enum import StrEnum
 
 from sqlalchemy import (
+    DECIMAL,
     BigInteger,
     Boolean,
     DateTime,
@@ -18,7 +19,7 @@ from sqlalchemy import (
     String,
     text
 )
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.dialects.postgresql import JSONB, REAL, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base
@@ -40,8 +41,8 @@ class DemoModel(Base):
     )
 
     col_int: Mapped[int] = mapped_column(Integer)
-    col_float: Mapped[float] = mapped_column(Float(precision=4, asdecimal=False))
-    col_decimal: Mapped[Decimal] = mapped_column(Float(precision=8, asdecimal=True))
+    col_float: Mapped[float] = mapped_column(REAL(precision=4, asdecimal=False))
+    col_decimal: Mapped[decimal.Decimal] = mapped_column(DECIMAL(precision=8))
     col_bigint: Mapped[int] = mapped_column(BigInteger)
     col_str: Mapped[str] = mapped_column(String(255))
     col_bool: Mapped[bool] = mapped_column(Boolean)
