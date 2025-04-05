@@ -34,7 +34,7 @@ async def create_demo_model(session_manager):
 
 
 class TestDemoQuery:
-    async def test_result_as_model(self, db_session_manager):
+    async def test_session_result_as_model(self, db_session_manager):
         async with create_demo_model(db_session_manager) as demo_model:
             async with db_session_manager.get_session() as session:
                 result = await session.execute(
@@ -44,7 +44,7 @@ class TestDemoQuery:
                 assert models
                 assert isinstance(models[0], DemoModel)
 
-    async def test_result_as_row(self, db_session_manager):
+    async def test_session_result_as_row(self, db_session_manager):
         async with create_demo_model(db_session_manager) as demo_model:
             async with db_session_manager.get_session() as session:
                 result = await session.execute(
@@ -57,7 +57,7 @@ class TestDemoQuery:
                 assert list_of_rows
                 assert isinstance(list_of_rows[0], RowProxy)
 
-    async def test_result_as_mapping(self, db_session_manager):
+    async def test_session_result_as_mapping(self, db_session_manager):
         async with create_demo_model(db_session_manager) as demo_model:
             async with db_session_manager.get_session() as session:
                 result = await session.execute(
@@ -71,7 +71,7 @@ class TestDemoQuery:
                 assert isinstance(list_of_rows[0], Mapping)
                 assert "DemoModel" in list_of_rows[0]
 
-    async def test_use_engine_as_row(self, db_session_manager, db_engine):
+    async def test_engine_result_as_row(self, db_session_manager, db_engine):
         async with create_demo_model(db_session_manager) as demo_model:
             async with db_engine.begin() as aconn:
                 result = await aconn.execute(
@@ -82,7 +82,7 @@ class TestDemoQuery:
                 list_of_rows = result.fetchall()
                 assert isinstance(list_of_rows[0], RowProxy)
 
-    async def test_use_engine_as_mapping(self, db_session_manager, db_engine):
+    async def test_engine_result_as_mapping(self, db_session_manager, db_engine):
         async with create_demo_model(db_session_manager) as demo_model:
             async with db_engine.begin() as aconn:
                 result = await aconn.execute(
