@@ -18,6 +18,9 @@ def event_loop():
 def db_session_manager():
     return get_db_session_manager()
 
+@pytest.fixture(scope="session")
+def db_engine(db_session_manager):
+    return db_session_manager.engine
 
 @pytest.fixture(scope="session")
 def rep(db_session_manager) -> UsersRepository:
