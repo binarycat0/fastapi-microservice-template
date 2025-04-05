@@ -13,13 +13,13 @@ class Base(MappedAsDataclass, DeclarativeBase):
     """subclasses will be converted to dataclasses"""
 
 
-class IdMixin:
+class IdMixin(MappedAsDataclass):
     id: Mapped[int] = mapped_column(
         BigInteger, primary_key=True, autoincrement=True, init=False
     )
 
 
-class CreatedUpdatedAtMixin:
+class CreatedUpdatedAtMixin(MappedAsDataclass):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         insert_default=datetime.now(UTC),

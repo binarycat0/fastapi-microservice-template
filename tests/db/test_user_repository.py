@@ -2,10 +2,10 @@ from datetime import datetime
 
 import pytest
 
-from conftest import rep
 from schemas.users import UserCreateModel
 
 
+@pytest.mark.asyncio(loop_scope="session")
 class TestUsersRepository:
 
     async def test_create_user__ok(self, rep):

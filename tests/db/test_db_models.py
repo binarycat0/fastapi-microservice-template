@@ -7,6 +7,7 @@ from sqlalchemy.orm import joinedload
 from db.models import User, Group, Membership, Address, AddressType
 
 
+@pytest.mark.asyncio(loop_scope="session")
 class TestDbModels:
 
     async def test_users__addresses__ok(self, db_session_manager):

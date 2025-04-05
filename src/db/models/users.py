@@ -26,16 +26,23 @@ class User(Base, IdMixin, CreatedUpdatedAtMixin):
         back_populates="user",
         uselist=False,
         primaryjoin="and_(User.id==Address.user_id,Address.type=='PRIMARY')",
+        overlaps="addresses",
         init=False,
     )
     addresses: Mapped[List["Address"]] = relationship(
-        back_populates="user", cascade="all, delete-orphan", init=False
+        back_populates="user",
+        cascade="all, delete-orphan",
+        overlaps="primary_address",
+        init=False,
     )
     groups: Mapped[List["Group"]] = relationship(
-        secondary="memberships", back_populates="members", init=False
+        secondary="memberships",
+        back_populates="members",
+        overlaps="memberships, user",
+        init=False,
     )
     memberships: Mapped[List["Membership"]] = relationship(
-        back_populates="user", init=False
+        back_populates="user", overlaps="groups", init=False
     )
 
 
@@ -81,8 +88,12 @@ class Membership(Base, IdMixin, CreatedUpdatedAtMixin):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     group_id: Mapped[int] = mapped_column(ForeignKey("groups.id"))
 
-    user: Mapped["User"] = relationship(back_populates="memberships")
-    group: Mapped["Group"] = relationship(back_populates="memberships")
+    user: Mapped["User"] = relationship(
+        back_populates="memberships", overlaps="groups,memberships"
+    )
+    group: Mapped["Group"] = relationship(
+        back_populates="memberships", overlaps="members,groups"
+    )
 
 
 class Group(Base, IdMixin):
@@ -92,8 +103,11 @@ class Group(Base, IdMixin):
     description: Mapped[str] = mapped_column(String(255), nullable=True, default=None)
 
     members: Mapped[List["User"]] = relationship(
-        secondary="memberships", back_populates="groups", init=False
+        secondary="memberships",
+        back_populates="groups",
+        overlaps="memberships,user",
+        init=False,
     )
     memberships: Mapped[List["Membership"]] = relationship(
-        back_populates="group", init=False
+        back_populates="group", overlaps="members", init=False
     )

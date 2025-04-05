@@ -3,6 +3,7 @@ import datetime
 from decimal import Decimal
 from typing import Mapping
 
+import pytest
 from sqlalchemy import select, delete, CursorResult
 from sqlalchemy.engine.row import RowProxy
 
@@ -30,9 +31,10 @@ async def create_demo_model(session_manager):
     yield demo_model
 
     async with session_manager.get_session() as session:
-        session.execute(delete(DemoModel).where(DemoModel.id == demo_model.id))
+        await session.execute(delete(DemoModel).where(DemoModel.id == demo_model.id))
 
 
+@pytest.mark.asyncio(loop_scope="session")
 class TestDemoQuery:
     async def test_session_result_as_model(self, db_session_manager):
         async with create_demo_model(db_session_manager) as demo_model:
