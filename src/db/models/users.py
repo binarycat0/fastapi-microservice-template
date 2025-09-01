@@ -44,6 +44,12 @@ class User(Base, IdMixin, CreatedUpdatedAtMixin):
     memberships: Mapped[List["Membership"]] = relationship(
         back_populates="user", overlaps="groups", init=False
     )
+    entities: Mapped[List["Entity"]] = relationship(
+        back_populates="owner",
+        cascade="all, delete-orphan",
+        overlaps="owner",
+        init=False,
+    )
 
 
 class AddressType(StrEnum):

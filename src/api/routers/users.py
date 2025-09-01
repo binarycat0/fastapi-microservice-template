@@ -4,8 +4,9 @@ from sqlalchemy.exc import IntegrityError
 
 from repositories import RepositoryDep
 from schemas.users import UserCreateModel, UserResponseModel
+from schemas.entities import GenerateEntitiesModel
 
-router = APIRouter()
+router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.post("/", response_model=UserResponseModel)
@@ -15,6 +16,14 @@ async def create_new_user(user: UserCreateModel, users_repository: RepositoryDep
         return new_user
     except IntegrityError as ex:
         raise HTTPException(status_code=400, detail="User already exists.")
+
+
+@router.post("/{user_id}/generate_entities")
+async def create_new_user(user_id: int, req: GenerateEntitiesModel, users_repository: RepositoryDep):
+    try:
+        await users_repository.create_entities(user_id, req.count)
+    except IntegrityError as ex:
+        raise HTTPException(status_code=400, detail="Something went wrong.")
 
 
 @router.get("/{user_id}", response_model=UserResponseModel)

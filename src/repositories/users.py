@@ -1,9 +1,11 @@
+import uuid
 from dataclasses import dataclass
 from typing import Sequence
 
-from sqlalchemy import asc, delete, select, update
+from sqlalchemy import asc, delete, insert, select, update
 from sqlalchemy.orm import joinedload, selectinload
 
+from db.models.entity import Entity
 from db.models.users import User
 from db.session import DbSessionManager
 from schemas.users import UserCreateModel
@@ -77,3 +79,19 @@ class UsersRepository:
         async with self.session_manager.get_session() as session:
             async with session.begin():
                 await session.execute(delete(User).where(User.id == user_id))
+
+    async def create_entities(self, user_id: int, count: int) -> None:
+        payloads = [
+            Entity(
+                owner_id=user_id,
+                type=Entity.Type.DUMMY,
+                name=f"Dummy-{uuid.uuid4().hex[:8]}",
+                description="Auto-generated dummy entity",
+                properties={"seed": uuid.uuid4().hex, "kind": "dummy"},
+            )
+            for _ in range(count)
+        ]
+
+        async with self.session_manager.get_session() as session:
+            async with session.begin():
+                await session.execute(insert(Entity), payloads)
