@@ -57,7 +57,7 @@ class UsersRepository:
         *,
         first_name: str | None = None,
         last_name: str | None = None,
-        email: str | None = None
+        email: str | None = None,
     ) -> None:
         values = {}
         if first_name is not None:

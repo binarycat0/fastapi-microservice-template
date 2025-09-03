@@ -21,19 +21,19 @@ Delete User Endpoint -> DELETE: /api/users/{user_id}
 ```
 
 
-## Initiate poetry environment
-Make sure you set up poetry: https://python-poetry.org/
+## Initiate uv environment
+Make sure you set up uv: https://docs.astral.sh/uv/
 
 ### Check
-    which poetry
-    poetry --version
+    which uv
+    uv --version
 
 ### Install/Update environment
 
     make install
 
 ## Local development
-Before start your development journey make sure you set up your poetry environment and run postgresql server.
+Before start your development journey make sure you set up your uv environment and run postgresql server.
 
 ### ex: run postgresql in docker
     docker run \

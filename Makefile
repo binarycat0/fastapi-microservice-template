@@ -1,16 +1,16 @@
 install:
-	poetry install
+	uv sync
 
 lint:
-	poetry run black ./src;
-	poetry run isort ./src;
-	poetry run mypy .;
+	uv run black ./src;
+	uv run isort ./src;
+	uv run mypy .;
 
 test:
-	poetry run pytest
+	uv run pytest
 
 run:
-	poetry run uvicorn \
+	uv run uvicorn \
 	app:create_app \
 	--app-dir src \
 	--reload \
@@ -36,13 +36,13 @@ docker-migrate:
 	docker compose \
 	-f ./docker/docker-compose.yaml \
 	--project-directory ./ \
-	exec -w /app api poetry run alembic -c /app/alembic.ini upgrade head
+	exec -w /app api uv run alembic -c /app/alembic.ini upgrade head
 
 docker-downgrade:
 	docker compose \
 	-f ./docker/docker-compose.yaml \
 	--project-directory ./ \
-	exec -w /app api poetry run alembic -c ./db/alembic.ini downgrade -1
+	exec -w /app api uv run alembic -c ./db/alembic.ini downgrade -1
 
 docker-up: docker-compose-build docker-compose-up docker-migrate
 
@@ -53,16 +53,16 @@ docker-down:
 	down -v
 
 migrate-check:
-	poetry run alembic -c ./alembic.ini check
+	uv run alembic -c ./alembic.ini check
 
 migration:
 ifndef m
 	$(error m must be defined)
 endif
-	poetry run alembic -c ./alembic.ini revision --autogenerate -m "$(m)"
+	uv run alembic -c ./alembic.ini revision --autogenerate -m "$(m)"
 
 migrate:
-	poetry run alembic -c ./alembic.ini upgrade head
+	uv run alembic -c ./alembic.ini upgrade head
 
 downgrade:
-	poetry run alembic -c ./alembic.ini downgrade -1
+	uv run alembic -c ./alembic.ini downgrade -1
