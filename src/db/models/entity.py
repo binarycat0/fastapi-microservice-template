@@ -29,13 +29,12 @@ class Entity(Base, IdMixin, CreatedUpdatedAtMixin):
         Enum(Type),
         insert_default=Type.DUMMY,
         server_default=text(f"'{Type.DUMMY.value}'"),
-        default=None,
     )
-    name: Mapped[str] = mapped_column(String(255), nullable=True, default=None)
-    description: Mapped[str] = mapped_column(String(255), nullable=True, default=None)
+    name: Mapped[str] = mapped_column(String(255), nullable=True, insert_default=None)
+    description: Mapped[str] = mapped_column(String(255), nullable=True, insert_default=None)
     properties: Mapped[dict] = mapped_column(
         JSONB(none_as_null=True),
         nullable=True,
-        default=dict,
+        insert_default=dict,
         server_default=text("'{}'::jsonb"),
     )
