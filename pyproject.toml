@@ -3,7 +3,7 @@ name = "fastapi-microservice-template"
 version = "0.1.0"
 description = "The Ultimate Super-Convenient Template for Microservices Based on FastAPI"
 authors = [{ name = "binarycat", email = "artur.rakhmatulin@gmail.com" }]
-requires-python = "~=3.11"
+requires-python = ">=3.11.0, <4"
 readme = "README.md"
 dependencies = [
     "fastapi>=0.115.6,<0.116",

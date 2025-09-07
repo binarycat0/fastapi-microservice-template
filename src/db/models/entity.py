@@ -31,7 +31,9 @@ class Entity(Base, IdMixin, CreatedUpdatedAtMixin):
         server_default=text(f"'{Type.DUMMY.value}'"),
     )
     name: Mapped[str] = mapped_column(String(255), nullable=True, insert_default=None)
-    description: Mapped[str] = mapped_column(String(255), nullable=True, insert_default=None)
+    description: Mapped[str] = mapped_column(
+        String(255), nullable=True, insert_default=None
+    )
     properties: Mapped[dict] = mapped_column(
         JSONB(none_as_null=True),
         nullable=True,

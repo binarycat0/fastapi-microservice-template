@@ -3,8 +3,8 @@ from fastapi.exceptions import HTTPException
 from sqlalchemy.exc import IntegrityError
 
 from repositories import RepositoryDep
-from schemas.users import UserCreateModel, UserResponseModel
 from schemas.entities import GenerateEntitiesModel
+from schemas.users import UserCreateModel, UserResponseModel
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -19,7 +19,9 @@ async def create_new_user(user: UserCreateModel, users_repository: RepositoryDep
 
 
 @router.post("/{user_id}/generate_entities")
-async def create_new_user(user_id: int, req: GenerateEntitiesModel, users_repository: RepositoryDep):
+async def create_new_user(
+    user_id: int, req: GenerateEntitiesModel, users_repository: RepositoryDep
+):
     try:
         await users_repository.create_entities(user_id, req.count)
     except IntegrityError as ex:
