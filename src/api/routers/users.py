@@ -2,15 +2,14 @@ from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 from sqlalchemy.exc import IntegrityError
 
-from repositories import RepositoryDep
-from schemas.entities import GenerateEntitiesModel
+from repositories import UsersRepositoryDep
 from schemas.users import UserCreateModel, UserResponseModel
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.post("/", response_model=UserResponseModel)
-async def create_new_user(user: UserCreateModel, users_repository: RepositoryDep):
+async def create_new_user(user: UserCreateModel, users_repository: UsersRepositoryDep):
     try:
         new_user = await users_repository.create_user(user)
         return new_user
@@ -18,18 +17,8 @@ async def create_new_user(user: UserCreateModel, users_repository: RepositoryDep
         raise HTTPException(status_code=400, detail="User already exists.")
 
 
-@router.post("/{user_id}/generate_entities")
-async def create_new_user(
-    user_id: int, req: GenerateEntitiesModel, users_repository: RepositoryDep
-):
-    try:
-        await users_repository.create_entities(user_id, req.count)
-    except IntegrityError as ex:
-        raise HTTPException(status_code=400, detail="Something went wrong.")
-
-
 @router.get("/{user_id}", response_model=UserResponseModel)
-async def read_user(user_id: int, users_repository: RepositoryDep):
+async def read_user(user_id: int, users_repository: UsersRepositoryDep):
     user = await users_repository.get_user_by_id(user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -37,11 +26,11 @@ async def read_user(user_id: int, users_repository: RepositoryDep):
 
 
 @router.get("/", response_model=list[UserResponseModel])
-async def read_users(users_repository: RepositoryDep):
+async def read_users(users_repository: UsersRepositoryDep):
     return await users_repository.get_users()
 
 
 @router.delete("/{user_id}")
-async def delete_user_endpoint(user_id: int, users_repository: RepositoryDep):
+async def delete_user_endpoint(user_id: int, users_repository: UsersRepositoryDep):
     await users_repository.delete_user(user_id)
     return {"status": "deleted"}
